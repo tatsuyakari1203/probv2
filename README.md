@@ -82,11 +82,11 @@ DevPod sẽ tự động đọc file `.devcontainer/devcontainer.json` có sẵn
 
 Theo mặc định, DevPod chỉ cho phép truy cập môi trường phát triển từ máy tính đang chạy nó (localhost). Để có thể truy cập VS Code từ các thiết bị khác trong cùng mạng LAN (ví dụ: từ iPad hoặc máy tính khác), bạn cần yêu cầu DevPod khởi chạy server ở địa chỉ `0.0.0.0`.
 
-Sử dụng tùy chọn `--ide-option HOST=0.0.0.0` khi chạy lệnh `devpod up`:
+Sử dụng tùy chọn `--ide-option BIND_ADDRESS=0.0.0.0` khi chạy lệnh `devpod up`:
 
 ```bash
 # Mở bằng VS Code trên trình duyệt, có thể truy cập qua LAN
-devpod up . --ide openvscode --ide-option HOST=0.0.0.0
+devpod up . --ide openvscode --ide-option BIND_ADDRESS=0.0.0.0
 ```
 
 Sau khi chạy lệnh, DevPod sẽ hiển thị một URL. Thay thế `127.0.0.1` hoặc `localhost` trong URL đó bằng địa chỉ IP của máy chủ đang chạy DevPod để truy cập từ thiết bị khác.
@@ -179,11 +179,11 @@ DevPod will automatically read the `.devcontainer/devcontainer.json` file in the
 
 By default, the DevPod development environment is only accessible from the host machine (localhost). To access the VS Code instance from other devices on the same local network (e.g., from an iPad or another computer), you need to instruct DevPod to bind the server to the `0.0.0.0` address.
 
-Use the `--ide-option HOST=0.0.0.0` flag when running the `devpod up` command:
+Use the `--ide-option BIND_ADDRESS=0.0.0.0` flag when running the `devpod up` command:
 
 ```bash
 # Open with VS Code in the browser, accessible over the LAN
-devpod up . --ide openvscode --ide-option HOST=0.0.0.0
+devpod up . --ide openvscode --ide-option BIND_ADDRESS=0.0.0.0
 ```
 
 After running the command, DevPod will provide a URL. Replace `127.0.0.1` or `localhost` in that URL with the IP address of the host machine running DevPod to access it from another device.
