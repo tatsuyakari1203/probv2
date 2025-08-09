@@ -48,13 +48,16 @@ Note: Exposes your IDE on the local network. Only use on trusted networks.
 POSIX shells (Git Bash/WSL/Linux):
 
 ```bash
-nohup devpod up . --ide openvscode > devpod.log 2>&1 &
+# With LAN access
+nohup devpod up . --ide openvscode --ide-option BIND_ADDRESS=0.0.0.0:10800 > devpod.log 2>&1 &
 echo $! > devpod.pid
 # Logs
 tail -f devpod.log
 # Stop
 kill $(cat devpod.pid)
 ```
+
+For localhost-only access, remove the `--ide-option BIND_ADDRESS=0.0.0.0:10800` part.
 
 On Windows PowerShell, prefer DevPod CLI lifecycle commands (`stop`/`start`) instead of `nohup`.
 
