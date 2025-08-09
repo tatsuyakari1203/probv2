@@ -1,0 +1,20 @@
+{
+  "name": "LaTeX Workspace",
+  "image": "tatsuyakari/latex-coder-workspace:latest",
+
+  "customizations": {
+    // Tùy chỉnh cho VS Code của DevPod
+    "vscode": {
+      "extensions": [
+        "James-Yu.latex-workshop",
+        "Catppuccin.catppuccin-vsc",
+        "streetsidesoftware.code-spell-checker"
+      ],
+      "settings": {
+        "workbench.colorTheme": "Catppuccin Mocha",
+        "latex-workshop.latex.autoBuild.run": "onFileChange",
+        "latex-workshop.view.pdf.viewer": "tab"
+      }
+    }
+  }
+}
