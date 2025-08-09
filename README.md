@@ -133,6 +133,14 @@ devpod context set-options -o EXIT_AFTER_TIMEOUT=false
 
 Lệnh này sẽ thay đổi cài đặt chung của DevPod và áp dụng cho tất cả các workspace trong tương lai.
 
+### Xử lý sự cố (Troubleshooting)
+
+**Lỗi `fatal: detected dubious ownership in repository`**
+
+*   **Vấn đề:** Khi bạn chạy các lệnh Git (như `git pull`, `git status`) trong terminal của VS Code được mở bởi DevPod, bạn có thể gặp lỗi này. Điều này xảy ra do sự khác biệt về quyền sở hữu file giữa máy host của bạn và môi trường container.
+*   **Giải pháp:** Project này đã được cấu hình để tự động khắc phục sự cố này. File `.devcontainer.json` chứa một `postCreateCommand` sẽ tự động chạy `git config --global --add safe.directory` bên trong container mỗi khi nó được tạo.
+*   **Lưu ý quan trọng:** Đảm bảo bạn đang chạy các lệnh Git **bên trong terminal của container** (terminal được cung cấp bởi VS Code hoặc qua `devpod ssh`), không phải trên terminal của máy host sau khi đã `devpod up`.
+
 ### Truy cập qua mạng LAN (LAN Access)
 
 Lỗi `missing port in address` cho thấy DevPod yêu cầu bạn phải chỉ định cả địa chỉ và cổng khi truy cập qua mạng LAN. Cổng mặc định cho VS Code là `10800`.
@@ -265,6 +273,14 @@ kill $(cat devpod.pid)
     ```bash
     devpod delete [workspace-name]
     ```
+
+### Troubleshooting
+
+**`fatal: detected dubious ownership in repository` Error**
+
+*   **Problem:** When you run Git commands (like `git pull`, `git status`) inside the VS Code terminal opened by DevPod, you might encounter this error. This happens due to a mismatch in file ownership between your host machine and the container environment.
+*   **Solution:** This project is already configured to fix this automatically. The `.devcontainer.json` file includes a `postCreateCommand` that automatically runs `git config --global --add safe.directory` inside the container every time it's created.
+*   **Important Note:** Make sure you are running Git commands **inside the container's terminal** (the one provided by VS Code or via `devpod ssh`), not on your host machine's terminal after running `devpod up`.
 
 ### Accessing via LAN
 

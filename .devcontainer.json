@@ -4,6 +4,9 @@
 
   "runArgs": ["--dns=8.8.8.8"],
 
+  // Chạy lệnh này sau khi container được tạo để fix lỗi "dubious ownership" của Git
+  "postCreateCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+
   "customizations": {
     // Tùy chỉnh cho VS Code của DevPod
     "vscode": {
