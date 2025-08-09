@@ -2,6 +2,15 @@
   "name": "LaTeX Workspace",
   "image": "tatsuyakari/latex-coder-workspace:latest",
 
+  "forwardPorts": [10800],
+  "portsAttributes": {
+    "10800": {
+      "label": "DevPod HTTP Server",
+      "onAutoForward": "notify",
+      "visibility": "public"
+    }
+  },
+
   "customizations": {
     // Tùy chỉnh cho VS Code của DevPod
     "vscode": {
