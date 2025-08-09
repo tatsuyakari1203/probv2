@@ -102,7 +102,28 @@ Sử dụng phương pháp này nếu bạn muốn có một bản sao của mã
 
 DevPod sẽ tự động đọc file `.devcontainer/devcontainer.json` có sẵn trong dự án, build image, khởi chạy container và mở IDE cho bạn.
 
-### Các lệnh hữu ích (Useful Commands)
+### Các lệnh DevPod CLI hữu ích (Useful DevPod CLI Commands)
+
+DevPod cung cấp một bộ công cụ dòng lệnh (CLI) mạnh mẽ để quản lý toàn bộ vòng đời của các workspace (container phát triển) của bạn. Dưới đây là các lệnh quan trọng nhất:
+
+**Quản lý Workspace:**
+
+*   `devpod list` (hoặc `devpod ls`): Liệt kê tất cả các workspace hiện có và trạng thái của chúng (ví dụ: `Running`, `Stopped`).
+*   `devpod up [path-or-url]`: Khởi tạo và khởi động một workspace mới từ một đường dẫn cục bộ hoặc một URL của repository.
+*   `devpod stop [workspace-name]`: Dừng một workspace đang chạy. Thao tác này sẽ dừng container nhưng không xóa dữ liệu, cho phép bạn khởi động lại sau.
+*   `devpod start [workspace-name]`: Khởi động lại một workspace đã bị dừng.
+*   `devpod delete [workspace-name]`: Xóa vĩnh viễn một workspace, bao gồm cả container và các tài nguyên liên quan.
+*   `devpod status [workspace-name]`: Hiển thị trạng thái chi tiết của một workspace cụ thể.
+
+**Tương tác với Workspace:**
+
+*   `devpod ssh [workspace-name]`: Mở một phiên SSH để truy cập vào dòng lệnh của một workspace đang chạy. Đây là cách để bạn làm việc trực tiếp bên trong container.
+*   `devpod logs [workspace-name]`: Xem và theo dõi (tail) log output từ một workspace, rất hữu ích cho việc gỡ lỗi.
+
+**Quản lý khác:**
+
+*   `devpod provider list`: Liệt kê các provider (như Docker, Kubernetes) mà bạn đã cấu hình.
+*   `devpod context list`: Liệt kê các context, cho phép bạn chuyển đổi giữa các cấu hình DevPod khác nhau.
 
 * Liệt kê tất cả các workspace đang có:
   ```bash
@@ -261,18 +282,28 @@ To stop the background DevPod process, use the `kill` command with the saved PID
 kill $(cat devpod.pid)
 ```
 
-*   List all current workspaces:
-    ```bash
-    devpod list
-    ```
-*   Stop a workspace:
-    ```bash
-    devpod down [workspace-name]
-    ```
-*   Delete a workspace:
-    ```bash
-    devpod delete [workspace-name]
-    ```
+### Useful DevPod CLI Commands
+
+DevPod provides a powerful command-line interface (CLI) to manage the entire lifecycle of your workspaces (development containers). Here are the most important commands:
+
+**Workspace Management:**
+
+*   `devpod list` (or `devpod ls`): Lists all existing workspaces and their status (e.g., `Running`, `Stopped`).
+*   `devpod up [path-or-url]`: Initializes and starts a new workspace from a local path or a repository URL.
+*   `devpod stop [workspace-name]`: Stops a running workspace. This stops the container but does not delete its data, allowing you to restart it later.
+*   `devpod start [workspace-name]`: Restarts a stopped workspace.
+*   `devpod delete [workspace-name]`: Permanently deletes a workspace, including its container and related resources.
+*   `devpod status [workspace-name]`: Shows the detailed status of a specific workspace.
+
+**Interacting with Workspaces:**
+
+*   `devpod ssh [workspace-name]`: Opens an SSH session to access the command line of a running workspace. This is how you work directly inside the container.
+*   `devpod logs [workspace-name]`: Views and tails the log output from a workspace, which is very useful for debugging.
+
+**Other Management:**
+
+*   `devpod provider list`: Lists the providers (like Docker, Kubernetes) that you have configured.
+*   `devpod context list`: Lists the contexts, allowing you to switch between different DevPod configurations.
 
 ### Troubleshooting
 
