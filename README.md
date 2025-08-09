@@ -40,13 +40,13 @@ Sử dụng phương pháp này nếu bạn muốn có một bản sao của mã
 1. **Clone repository về máy của bạn:**
 
    ```bash
-   git clone `https://github.com/tatsuyakari1203/vscode-latex-devcontainer.git`
+   git clone https://github.com/tatsuyakari1203/vscode-latex-devcontainer.git
    ```
 
 2. **Di chuyển vào thư mục dự án:**
 
    ```bash
-   cd probv2
+   cd vscode-latex-devcontainer
    ```
 
 3. **Khởi chạy môi trường DevPod từ thư mục hiện tại:**
