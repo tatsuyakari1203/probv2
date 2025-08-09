@@ -13,7 +13,46 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt:
 
 Bạn có thể chọn một trong hai phương pháp sau tùy theo nhu cầu.
 
------
+### Chạy nền (Daemon Mode)
+
+Để chạy DevPod ở chế độ nền (daemon), giải phóng terminal của bạn và lưu log vào một file, bạn có thể sử dụng các lệnh sau trong môi trường shell tương thích với POSIX (như Git Bash, WSL, hoặc Linux).
+
+**1. Khởi động và lưu log**
+
+```bash
+nohup devpod up . --ide openvscode --ide-option BIND_ADDRESS=0.0.0.0:10800 > devpod.log 2>&1 &
+```
+
+*   `nohup`: Đảm bảo tiến trình vẫn chạy ngay cả khi bạn đóng terminal.
+*   `> devpod.log 2>&1`: Chuyển hướng tất cả output (cả stdout và stderr) vào file `devpod.log`.
+*   `&`: Chạy lệnh trong nền.
+
+**2. Lấy và lưu Process ID (PID)**
+
+Ngay sau khi chạy lệnh trên, bạn có thể lấy PID của tiến trình và lưu vào file để tiện cho việc dừng sau này.
+
+```bash
+echo $! > devpod.pid
+```
+
+**3. Xem log**
+
+Để theo dõi output của DevPod trong thời gian thực:
+
+```bash
+tail -f devpod.log
+```
+
+**4. Dừng DevPod**
+
+Để dừng tiến trình DevPod đang chạy nền, sử dụng lệnh `kill` với PID đã lưu:
+
+```bash
+kill $(cat devpod.pid)
+```
+
+---
+--
 
 #### **Lựa chọn 1: Cài đặt nhanh bằng một lệnh (Nhanh nhất)**
 
@@ -78,18 +117,34 @@ DevPod sẽ tự động đọc file `.devcontainer/devcontainer.json` có sẵn
   devpod delete [tên-workspace]
   ```
 
-### Truy cập qua mạng LAN (LAN Access)
+### Lưu ý quan trọng (Important Notes)
 
-Theo mặc định, DevPod chỉ cho phép truy cập môi trường phát triển từ máy tính đang chạy nó (localhost). Để có thể truy cập VS Code từ các thiết bị khác trong cùng mạng LAN (ví dụ: từ iPad hoặc máy tính khác), bạn cần yêu cầu DevPod khởi chạy server ở địa chỉ `0.0.0.0`.
+**Tự động tắt do không hoạt động (Auto-shutdown on idle)**
 
-Sử dụng tùy chọn `--ide-option BIND_ADDRESS=0.0.0.0` khi chạy lệnh `devpod up`:
+DevPod có một tính năng mặc định sẽ tự động tắt workspace nếu không có hoạt động nào trong một khoảng thời gian ngắn để tiết kiệm tài nguyên. Bạn có thể gặp lỗi sau:
+
+`fatal Stopping devpod up, because it stayed idle for a while.`
+
+Để vô hiệu hóa tính năng này và giữ cho workspace của bạn luôn chạy, hãy thực thi lệnh sau trên terminal của bạn **một lần duy nhất**:
 
 ```bash
-# Mở bằng VS Code trên trình duyệt, có thể truy cập qua LAN
-devpod up . --ide openvscode --ide-option BIND_ADDRESS=0.0.0.0
+devpod context set-options -o EXIT_AFTER_TIMEOUT=false
 ```
 
-Sau khi chạy lệnh, DevPod sẽ hiển thị một URL. Thay thế `127.0.0.1` hoặc `localhost` trong URL đó bằng địa chỉ IP của máy chủ đang chạy DevPod để truy cập từ thiết bị khác.
+Lệnh này sẽ thay đổi cài đặt chung của DevPod và áp dụng cho tất cả các workspace trong tương lai.
+
+### Truy cập qua mạng LAN (LAN Access)
+
+Lỗi `missing port in address` cho thấy DevPod yêu cầu bạn phải chỉ định cả địa chỉ và cổng khi truy cập qua mạng LAN. Cổng mặc định cho VS Code là `10800`.
+
+Sử dụng tùy chọn `--ide-option BIND_ADDRESS=0.0.0.0:10800` khi chạy lệnh `devpod up`:
+
+```bash
+# Mở bằng VS Code trên trình duyệt, có thể truy cập qua LAN tại port 10800
+devpod up . --ide openvscode --ide-option BIND_ADDRESS=0.0.0.0:10800
+```
+
+Sau khi chạy lệnh, bạn có thể truy cập môi trường phát triển từ một thiết bị khác trong cùng mạng LAN bằng cách truy cập `http://<ĐỊA_CHỈ_IP_MÁY_CHỦ>:10800`.
 
 > **⚠️ Cảnh báo bảo mật:** Việc này sẽ đưa môi trường phát triển của bạn ra mạng LAN. Hãy chắc chắn rằng bạn đang ở trong một mạng an toàn và đáng tin cậy trước khi sử dụng tùy chọn này.
 
@@ -160,7 +215,43 @@ Use this method if you want a local copy of the source code on your machine.
 
 DevPod will automatically read the `.devcontainer/devcontainer.json` file in the project, build the image, launch the container, and open the IDE for you.
 
-### Useful Commands
+### Daemon Mode
+
+To run DevPod in the background (daemon mode), free up your terminal, and save logs to a file, you can use the following commands in a POSIX-compliant shell (like Git Bash, WSL, or Linux).
+
+**1. Start and Log**
+
+```bash
+nohup devpod up . --ide openvscode --ide-option BIND_ADDRESS=0.0.0.0:10800 > devpod.log 2>&1 &
+```
+
+*   `nohup`: Ensures the process continues running even if you close the terminal.
+*   `> devpod.log 2>&1`: Redirects all output (both stdout and stderr) to the `devpod.log` file.
+*   `&`: Runs the command in the background.
+
+**2. Get and Save Process ID (PID)**
+
+Immediately after running the command above, you can get the PID of the process and save it to a file for easy stopping later.
+
+```bash
+echo $! > devpod.pid
+```
+
+**3. View Logs**
+
+To monitor DevPod's output in real-time:
+
+```bash
+tail -f devpod.log
+```
+
+**4. Stop DevPod**
+
+To stop the background DevPod process, use the `kill` command with the saved PID:
+
+```bash
+kill $(cat devpod.pid)
+```
 
 *   List all current workspaces:
     ```bash
