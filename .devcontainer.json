@@ -2,6 +2,8 @@
   "name": "LaTeX Workspace",
   "image": "tatsuyakari/latex-coder-workspace:latest",
 
+  "runArgs": ["--dns=8.8.8.8"],
+
   "customizations": {
     // Tùy chỉnh cho VS Code của DevPod
     "vscode": {
